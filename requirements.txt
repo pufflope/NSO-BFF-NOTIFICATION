@@ -1,0 +1,4 @@
+itunes_app_scraper_dmi
+python_telegram_bot
+requests
+schedule
