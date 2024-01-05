@@ -132,17 +132,24 @@ class NSO_BFF:
                         text = f"<b>{frd_name}</b>  {image}  <b>{game_name}</b>"
                     else:
                         frd_status_int = 0
+                        game_name = ""
 
                         text = f"<b>{frd_name}</b>  ⚪"
 
-                    frds_status_json.update({frd["nsaId"]: frd_status_int})
+                    frds_status_json.update(
+                        {frd["nsaId"]: {"status": frd_status_int, "game": game_name}}
+                    )
 
                     msg_text = f"{text}"
 
                     bff_last_status = self.get_last_status()
                     if frd["nsaId"] in bff_last_status:
-                        last_online_status = bff_last_status[frd["nsaId"]]
-                        if frd_status_int != last_online_status:
+                        last_online_status = bff_last_status[frd["nsaId"]]["status"]
+                        last_game = bff_last_status[frd["nsaId"]]["game"]
+                        if (
+                            frd_status_int != last_online_status
+                            or game_name != last_game
+                        ):
                             init.send_message(msg_text)
 
         with open(init.frds_status_file, "w") as file:
