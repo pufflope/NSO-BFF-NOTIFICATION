@@ -21,11 +21,18 @@ if not os.path.exists(path):
 
 
 def get_app_version():
-    scraper = AppStoreScraper()
-    app_id = scraper.get_app_ids_for_query("Nintendo Switch Online")[0]
-    app_details = scraper.get_app_details(app_id)
-    app_latest_version = app_details.get("version")
-    return app_latest_version
+    try:
+        scraper = AppStoreScraper()
+        app_id = scraper.get_app_ids_for_query("Nintendo Switch Online")[0]
+        app_details = scraper.get_app_details(app_id)
+        app_latest_version = app_details.get("version")
+        return app_latest_version
+    except Exception as Error:
+        print(f"get_app_version {Error}" % Error)
+        return app_version
+
+
+app_version = get_app_version()
 
 
 def request_headers_com():
